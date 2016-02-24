@@ -1,57 +1,53 @@
-var sqs = document.getElementsByClassName("sq");
-var button = document.getElementsByTagName("button")[0];
-var row1 = document.getElementsByClassName("row1");
-var row2 = document.getElementsByClassName("row2");
-var row3 = document.getElementsByClassName("row3");
-var grid = [[null, null, null],[null, null, null],[null, null, null]];
+var sqs = document.getElementsByClassName('sq');
+var button = document.getElementsByTagName('button')[0];
+var grid = [[null, null, null], [null, null, null], [null, null, null]];
 var j = 0;
 var counth = 0;
 var countv = 0;
 var countd1 = 0;
 var countd2 = 0;
 
-function go(event){
+function go() {
   var celli = parseInt(this.id[0]);
   var cellj = parseInt(this.id[1]);
   var cpuMove;
-  if(this.classList.contains("clicked")){
-    console.log("clicked");
-  } else {
-    this.className += " clicked";
-    if(j % 2 === 0){
-      this.innerHTML = "<p>X</p>";
-      this.className += " x";
-      grid[celli][cellj] = "x";
-    } else {
-      this.innerHTML = "<p>O</p>"
-      this.className += " o";
-      grid[celli][cellj] = "o";
+
+  if (this.classList.contains('clicked')) {
+    alert('clicked');
+  }
+  else {
+    this.className += ' clicked';
+    if (j % 2 === 0) {
+      this.innerHTML = '<p>X</p>';
+      this.className += ' x';
+      grid[celli][cellj] = 'x';
+    }
+    else {
+      this.innerHTML = '<p>O</p>';
+      this.className += ' o';
+      grid[celli][cellj] = 'o';
     }
     j++;
-    console.log(grid);
-    if(vTest(grid)){
+    if (vTest(grid)) {
       alert(vTest(grid));
       return;
     }
     cpuMove = document.getElementById(minimax());
-    cpuMove.innerHTML = "<p>O</p>";
-    cpuMove.className += " o clicked";
+    cpuMove.innerHTML = '<p>O</p>';
+    cpuMove.className += ' o clicked';
     j++;
-    console.log(grid);
-    if(vTest(grid)){
+    if (vTest(grid)) {
       alert(vTest(grid));
     }
   }
 }
 
-
-function reset(event){
-  console.log("reset");
+function reset() {
   for (var i = 0; i < sqs.length; i++) {
-    sqs[i].innerHTML = "";
-    sqs[i].className = "sq";
+    sqs[i].innerHTML = '';
+    sqs[i].className = 'sq';
   }
-  grid = [[null, null, null],[null, null, null],[null, null, null]];
+  grid = [[null, null, null], [null, null, null], [null, null, null]];
   countv = 0;
   counth = 0;
   countd1 = 0;
@@ -60,19 +56,19 @@ function reset(event){
 }
 
 for (var i = 0; i < sqs.length; i++) {
-  sqs[i].addEventListener("click", go);
+  sqs[i].addEventListener('click', go);
 }
 
-button.addEventListener("click", reset);
+button.addEventListener('click', reset);
 
-function vTest(grid){
+function vTest(grid) {
   var x;
   for (var a = 0; a < 2; a++) {
 
     if(a % 2){
-      x = "x";
+      x = 'x';
     } else {
-      x = "o";
+      x = 'o';
     }
 
     for (var i = 0; i < grid.length; i++) {
@@ -115,8 +111,8 @@ function vTest(grid){
         }
       }
     }
-
   }
+  return null;
 }
 
 function makeVGrid(grid){
@@ -147,32 +143,28 @@ function nextStates(grid, x) {
 
 function minimax(){
   var move;
-  var stateso = nextStates(grid, "o");
-  var statesx = nextStates(grid, "x");
+  var stateso = nextStates(grid, 'o');
+  var statesx = nextStates(grid, 'x');
   if(j % 2){
     for (var i = 0; i < statesx.length; i++) {
-      if(vTest(stateso[i]) === "o"){
+      if(vTest(stateso[i]) === 'o'){
         for (var l = 0; l < grid.length; l++) {
           for (var k = 0; k < grid[l].length; k++) {
             if(stateso[i][l][k] !== grid[l][k]){
-              console.log("solution for o");
-              console.log("" + l + k);
               grid[l][k] = stateso[i][l][k];
-              return "" + l + k;
+              return '' + l + k;
             }
           }
         }
       }
     }
     for (var i = 0; i < statesx.length; i++) {
-      if(vTest(statesx[i]) === "x"){
+      if(vTest(statesx[i]) === 'x'){
         for (var l = 0; l < grid.length; l++) {
           for (var k = 0; k < grid[l].length; k++) {
             if(statesx[i][l][k] !== grid[l][k]){
-              console.log("solution");
-              console.log("" + l + k);
               grid[l][k] = stateso[i][l][k];
-              return "" + l + k;
+              return '' + l + k;
             }
           }
         }
@@ -181,10 +173,8 @@ function minimax(){
     for (var l = 0; l < grid.length; l++) {
       for (var k = 0; k < grid[l].length; k++) {
         if(stateso[stateso.length - 1][l][k] !== grid[l][k]){
-          console.log("solution");
-          console.log("" + l + k);
           grid[l][k] = stateso[stateso.length - 1][l][k];
-          return "" + l + k;
+          return '' + l + k;
         }
       }
     }
