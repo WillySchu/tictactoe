@@ -31,6 +31,7 @@ function go(event){
     console.log(grid);
     if(vTest(grid)){
       alert(vTest(grid));
+      return;
     }
     cpuMove = document.getElementById(minimax());
     cpuMove.innerHTML = "<p>O</p>";
